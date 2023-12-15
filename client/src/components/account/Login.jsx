@@ -1,8 +1,9 @@
 import {Box, TextField, Button, styled, Typography} from '@mui/material'
-import { hover } from '@testing-library/user-event/dist/hover'
 import { useState } from 'react'
-import {API} from '../../service/api'
+import {signupUser} from '../../service/api'
 
+
+//Material UI components
 const Component = styled(Box)`
     background-color:#FEFEFE;
     width:400px;
@@ -45,25 +46,27 @@ const Text = styled(Typography)({
     color:'#878787',
     fontSize:16
 })
-const initialSignupValues = {
-    fullname:'',
-    username:'',
-    password:''
-}
 
+
+//Main Function component
 const Login = () =>{
-    const [toggleLogin,setToggleLogin] = useState(true)
-    const [signupValues,setSignupValues] = useState(initialSignupValues)
+
+    //State variables
+    const [toggleLogin,setToggleLogin] = useState(false)
+    const [signupValues,setSignupValues] = useState({fullname:'',username:'',password:''})
 
     const imageURL = 'https://archive.bethebusiness.com/wp-content/uploads/2019/12/Bloggraphic.jpg'
 
+    //Event handlers
     const handleSignupValues = (e) =>{
         setSignupValues({...signupValues, [e.target.name]: e.target.value})
     }
-
-    const handleSignupButton = async ()=>{
+    const handleSignupButton = ()=>{
         console.log(signupValues)
-        let response = await API.userSignup(signupValues)
+
+        signupUser(signupValues)
+        .then(res=>console.log(res.data))
+        .catch(err=>console.log(err.message))
     }
 
     return(
