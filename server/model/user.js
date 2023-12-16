@@ -16,6 +16,8 @@ const Schema = mongoose.Schema({
     }
 })
 
-const user = mongoose.model('user', Schema)
+const User = new mongoose.model('user', Schema)
+User.createIndexes()
 
-export default user
+
+export default User

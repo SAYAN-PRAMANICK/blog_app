@@ -62,11 +62,12 @@ const Login = () =>{
         setSignupValues({...signupValues, [e.target.name]: e.target.value})
     }
     const handleSignupButton = ()=>{
-        console.log(signupValues)
-
         signupUser(signupValues)
         .then(res=>console.log(res.data))
-        .catch(err=>console.log(err.message))
+        .catch(err=>console.log(err.response))
+        .then(()=>{
+            setSignupValues({fullname:'',username:'',password:''})
+        })
     }
 
     return(
@@ -86,9 +87,9 @@ const Login = () =>{
                 :
                 // sign-up page
                     <Wrapper>
-                        <TextField onChange={(e)=>handleSignupValues(e)} name='fullname' id="filled-basic" label="full name" variant="filled" />
-                        <TextField onChange={(e)=>handleSignupValues(e)} name='username' id="filled-basic" label="username" variant="filled" />
-                        <TextField onChange={(e)=>handleSignupValues(e)} name='password' id="filled-basic" label="password" variant="filled" />
+                        <TextField onChange={(e)=>handleSignupValues(e)} value={signupValues.fullname} name='fullname' id="filled-basic" label="full name" variant="filled" />
+                        <TextField onChange={(e)=>handleSignupValues(e)} value={signupValues.username} name='username' id="filled-basic" label="username" variant="filled" />
+                        <TextField onChange={(e)=>handleSignupValues(e)} value={signupValues.password} name='password' id="filled-basic" label="password" variant="filled" />
                         <Button1 onClick={()=>handleSignupButton()} variant="contained">Sign Up</Button1>
                         <Text style={{textAlign:'center'}}>OR</Text>
                         <Button2 onClick={()=>setToggleLogin(true)} style={{marginTop:'10px'}} variant="text">Already have an account</Button2>
