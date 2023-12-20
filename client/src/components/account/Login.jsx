@@ -47,6 +47,14 @@ const Text = styled(Typography)({
     fontSize:16
 })
 
+const Error = styled(Typography)({
+    color:'red',
+    fontSize:10,
+    lineHeight:0,
+    marginTop:'10px',
+    fontWeight:600
+
+})
 
 //Main Function component
 const Login = () =>{
@@ -54,17 +62,22 @@ const Login = () =>{
     //State variables
     const [toggleLogin,setToggleLogin] = useState(false)
     const [signupValues,setSignupValues] = useState({fullname:'',username:'',password:''})
+    const [error,setError] = useState({state:false,data:""})
 
     const imageURL = 'https://archive.bethebusiness.com/wp-content/uploads/2019/12/Bloggraphic.jpg'
 
     //Event handlers
     const handleSignupValues = (e) =>{
         setSignupValues({...signupValues, [e.target.name]: e.target.value})
+        setError({state:false, data:""})
     }
     const handleSignupButton = ()=>{
         signupUser(signupValues)
         .then(res=>console.log(res.data))
-        .catch(err=>console.log(err.response))
+        .catch(err=>{
+            console.log(err.response.data)
+            setError({state:true,data:err.response.data})
+        })
         .then(()=>{
             setSignupValues({fullname:'',username:'',password:''})
         })
@@ -89,6 +102,7 @@ const Login = () =>{
                     <Wrapper>
                         <TextField onChange={(e)=>handleSignupValues(e)} value={signupValues.fullname} name='fullname' id="filled-basic" label="full name" variant="filled" />
                         <TextField onChange={(e)=>handleSignupValues(e)} value={signupValues.username} name='username' id="filled-basic" label="username" variant="filled" />
+                        {error.state && <Error style={{textAlign:'center', marginTop:'7px', marginBottom:'-7px'}}>{error.data}</Error>}
                         <TextField onChange={(e)=>handleSignupValues(e)} value={signupValues.password} name='password' id="filled-basic" label="password" variant="filled" />
                         <Button1 onClick={()=>handleSignupButton()} variant="contained">Sign Up</Button1>
                         <Text style={{textAlign:'center'}}>OR</Text>
