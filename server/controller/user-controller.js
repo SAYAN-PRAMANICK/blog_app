@@ -2,7 +2,7 @@ import User from '../model/user.js'
 import bcrypt from'bcrypt'
 
  
-const signupUser = async(req,res)=>{
+export const signupUser = async(req,res)=>{
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const newUser = new User({fullname:req.body.fullname, username:req.body.username, password:hashedPassword})
@@ -13,4 +13,11 @@ const signupUser = async(req,res)=>{
 
 }
 
-export default signupUser
+export const loginUser = async(req,res) =>{
+    const {username,password,userData} = req
+    
+    const match = await bcrypt.compare(password, userData.password)
+    if(!match){
+        return res.status(500).json(`invalid password!`)
+    }
+}

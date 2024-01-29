@@ -1,6 +1,6 @@
 import {Box, TextField, Button, styled, Typography} from '@mui/material'
 import { useState } from 'react'
-import {signupUser} from '../../service/api'
+import {loginUser, signupUser} from '../../service/api'
 
 
 //Material UI components
@@ -46,7 +46,6 @@ const Text = styled(Typography)({
     color:'#878787',
     fontSize:16
 })
-
 const Error = styled(Typography)({
     color:'red',
     fontSize:10,
@@ -60,8 +59,9 @@ const Error = styled(Typography)({
 const Login = () =>{
 
     //State variables
-    const [toggleLogin,setToggleLogin] = useState(false)
+    const [toggleLogin,setToggleLogin] = useState(true)
     const [signupValues,setSignupValues] = useState({fullname:'',username:'',password:''})
+    const [loginValues,setLoginValues] = useState({username:'',password:''})
     const [error,setError] = useState({state:false,data:""})
 
     const imageURL = 'https://archive.bethebusiness.com/wp-content/uploads/2019/12/Bloggraphic.jpg'
@@ -71,7 +71,7 @@ const Login = () =>{
         setSignupValues({...signupValues, [e.target.name]: e.target.value})
         setError({state:false, data:""})
     }
-    const handleSignupButton = ()=>{
+    const handleSignupButton = () =>{
         signupUser(signupValues)
         .then(res=>console.log(res.data))
         .catch(err=>{
@@ -82,6 +82,13 @@ const Login = () =>{
             setSignupValues({fullname:'',username:'',password:''})
         })
     }
+    const handleLoginValues = (e) =>{
+        setLoginValues({...loginValues, [e.target.name]:e.target.value})
+    }
+    const handleLoginButton = () =>{
+        loginUser(loginValues)
+        .catch(err=>console.log(err.response.data))
+    }
 
     return(
         <Component>
@@ -91,19 +98,19 @@ const Login = () =>{
                 toggleLogin?
                 // login page
                     <Wrapper>
-                        <TextField id="filled-basic" label="username or email" variant="filled" />
-                        <TextField id="filled-basic" label="password" variant="filled" />
-                        <Button1 variant="contained">Login</Button1>
+                        <TextField id="filled-basic" value={loginValues.username} onChange={(e)=>handleLoginValues(e)} name='username' label="username or email" variant="filled" />
+                        <TextField id="filled-basic" value={loginValues.password} onChange={(e)=>handleLoginValues(e)} name='password' label="password" variant="filled" />
+                        <Button1 onClick={()=>handleLoginButton()} variant="contained">Login</Button1>
                         <Text style={{textAlign:'center'}}>OR</Text>
                         <Button2 onClick={()=>setToggleLogin(false)} style={{marginTop:'10px'}} variant="text">Create an account</Button2>
                     </Wrapper>
                 :
                 // sign-up page
                     <Wrapper>
-                        <TextField onChange={(e)=>handleSignupValues(e)} value={signupValues.fullname} name='fullname' id="filled-basic" label="full name" variant="filled" />
-                        <TextField onChange={(e)=>handleSignupValues(e)} value={signupValues.username} name='username' id="filled-basic" label="username" variant="filled" />
+                        <TextField onChange={(e)=>handleSignupValues(e)}  name='fullname' id="filled-basic" label="full name" variant="filled" />
+                        <TextField onChange={(e)=>handleSignupValues(e)}  name='username' id="filled-basic" label="username" variant="filled" />
                         {error.state && <Error style={{textAlign:'center', marginTop:'7px', marginBottom:'-7px'}}>{error.data}</Error>}
-                        <TextField onChange={(e)=>handleSignupValues(e)} value={signupValues.password} name='password' id="filled-basic" label="password" variant="filled" />
+                        <TextField onChange={(e)=>handleSignupValues(e)}  name='password' id="filled-basic" label="password" variant="filled" />
                         <Button1 onClick={()=>handleSignupButton()} variant="contained">Sign Up</Button1>
                         <Text style={{textAlign:'center'}}>OR</Text>
                         <Button2 onClick={()=>setToggleLogin(true)} style={{marginTop:'10px'}} variant="text">Already have an account</Button2>
