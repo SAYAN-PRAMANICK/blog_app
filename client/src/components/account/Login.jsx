@@ -2,6 +2,7 @@ import { Box, TextField, Button, styled, Typography } from "@mui/material";
 import { useState, useContext } from "react";
 import { loginUser, signupUser } from "../../service/api";
 import { DataContext } from "../../context/DataProvider";
+import { useNavigate } from "react-router-dom";
 
 //Material UI components
 const Component = styled(Box)`
@@ -74,6 +75,10 @@ const Login = () => {
   //Global State Variables
   const { account, setAccount } = useContext(DataContext);
 
+  //Custom Hooks
+  const navigate = useNavigate();
+
+  //LoginPage LOGO
   const imageURL =
     "https://archive.bethebusiness.com/wp-content/uploads/2019/12/Bloggraphic.jpg";
 
@@ -106,6 +111,8 @@ const Login = () => {
         );
 
         setAccount({ username: res.data.username, name: res.data.name });
+
+        navigate("/");
       })
       .catch((err) => console.log(err.response.data));
   };
