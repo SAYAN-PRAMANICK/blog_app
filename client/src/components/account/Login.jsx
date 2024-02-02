@@ -13,7 +13,6 @@ const Component = styled(Box)`
   border-bottom: solid grey 1px;
   border-radius: 10px;
   box-shadow: 5px 2px 5px 2px rgb(0 0 0/ 0.4);
-  margin-top: 4%;
 `;
 const Image = styled("img")({
   width: 350,
@@ -58,7 +57,7 @@ const Error = styled(Typography)({
 });
 
 //Main Function component
-const Login = () => {
+const Login = ({ setIsAuthenticated }) => {
   //State variables
   const [toggleLogin, setToggleLogin] = useState(true);
   const [signupValues, setSignupValues] = useState({
@@ -109,10 +108,9 @@ const Login = () => {
           "refreshToken",
           `Bearer ${res.data.refreshToken}`
         );
-
         setAccount({ username: res.data.username, name: res.data.name });
-
         navigate("/");
+        setIsAuthenticated(true);
       })
       .catch((err) => console.log(err.response.data));
   };
