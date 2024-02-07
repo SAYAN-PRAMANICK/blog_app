@@ -1,6 +1,3 @@
-import Login from "./components/account/Login";
-import Home from "./components/home/Home";
-import DataProvider from "./context/DataProvider";
 import {
   BrowserRouter,
   Routes,
@@ -8,8 +5,13 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
-import Header from "./components/header/Header";
 import { useState } from "react";
+
+import Login from "./components/account/Login";
+import Home from "./components/home/Home";
+import DataProvider from "./context/DataProvider";
+import Header from "./components/header/Header";
+import CreatePost from "./components/create/CreatePost";
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   return isAuthenticated ? (
@@ -31,16 +33,28 @@ function App() {
         <BrowserRouter>
           <div style={{ marginTop: 64 }}>
             <Routes>
-              <Route
-                path="/login"
-                element={<Login setIsAuthenticated={setIsAuthenticated} />}
-              />
-              <Route
-                path="/"
-                element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-              >
-                <Route path="/" element={<Home />} />
-              </Route>
+              {
+                <Route
+                  path="/login"
+                  element={<Login setIsAuthenticated={setIsAuthenticated} />}
+                />
+              }
+              {
+                <Route
+                  path="/"
+                  element={<PrivateRoute isAuthenticated={isAuthenticated} />}
+                >
+                  <Route path="/" element={<Home />} />
+                </Route>
+              }
+              {
+                <Route
+                  path="/create"
+                  element={<PrivateRoute isAuthenticated={isAuthenticated} />}
+                >
+                  <Route path="/create" element={<CreatePost />} />
+                </Route>
+              }
             </Routes>
           </div>
         </BrowserRouter>
