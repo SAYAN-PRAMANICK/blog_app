@@ -31,7 +31,7 @@ const Categories = () => {
   return (
     <>
       {/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Routing to Create endpoint~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-      <Link to="/create">
+      <Link to="/create">    //changed in github
         <StyledButton variant="contained">Create Blog</StyledButton>
       </Link>
 
