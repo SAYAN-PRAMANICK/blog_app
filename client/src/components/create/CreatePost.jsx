@@ -1,13 +1,18 @@
-import { useState, useEffect } from "react";
-import styled from "@emotion/styled";
+import { useState, useEffect, useContext } from "react";
 import {
   Box,
   Button,
   FormControl,
   InputBase,
   TextareaAutosize,
+  styled,
 } from "@mui/material";
 import { AddCircle as Add } from "@mui/icons-material";
+import { useSearchParams } from "react-router-dom";
+import { DataContext } from "../../context/DataProvider";
+import { uploadFile } from "../../service/api";
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Styles~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 const Image = styled("img")({
   width: "100%",
@@ -37,39 +42,57 @@ const TextArea = styled(TextareaAutosize)({
   },
 });
 
-const initialPost = {
-  title: "",
-  description: "",
-  picture: "",
-  username: "",
-  categories: "",
-  createdDate: "",
-};
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Main Component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 const CreatePost = () => {
-  const url = "https://source.unsplash.com/random/?nightsky";
-  const [post, setPost] = useState(initialPost);
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~State Variables & Hooks~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  const [post, setPost] = useState({
+    title: "",
+    description: "",
+    picture: "",
+    username: "",
+    categories: "",
+    createdDate: "",
+  });
   const [file, setFile] = useState("");
+  const [searhParams] = useSearchParams();
+  const { account } = useContext(DataContext);
+
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Image URL~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  const url = post.picture
+    ? post.picture
+    : "https://source.unsplash.com/random/?nightsky";
+
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Handler Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  const handleChange = (e) => {
+    setPost({ ...post, [e.target.name]: e.target.value });
+  };
+
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Use Effect~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   useEffect(() => {
-    const getImage = () => {
+    const getImage = async () => {
       if (file) {
         const data = new FormData();
         data.append("name", file.name);
         data.append("file", file);
 
-        //API CALL
-        post.picture = ""; //TODO
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~API Call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        const response = await uploadFile(data);
+        post.picture = response.data;
       }
-      getImage();
 
-      // post.categories;
+      post.categories = searhParams.get("category") || "All";
+      post.username = account.username;
     };
-  }, [file]);
 
-  const handleChange = (e) => {
-    setPost({ ...post, [e.target.name]: e.target.value });
-  };
+    getImage();
+  });
+
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Render~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   return (
     <Container>

@@ -21,6 +21,10 @@ const StyledButton = styled(Button)({
   background: "#6495ED",
   textDecoration: "none",
 });
+const StyledLink = styled(Link)({
+  textDecoration: "none",
+  color: "inherit",
+});
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Main Function~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -31,16 +35,16 @@ const Categories = () => {
   return (
     <>
       {/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Routing to Create endpoint~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-      <Link to="/create">    //changed in github
+      <StyledLink to={`/create?category=${category || ""}`}>
         <StyledButton variant="contained">Create Blog</StyledButton>
-      </Link>
+      </StyledLink>
 
       {/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Categories SideBar~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
       <StyledTable>
         <TableHead>
           <TableRow>
             <TableCell>
-              <Link to="/">All Categories</Link>
+              <StyledLink to="/">All Categories</StyledLink>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -48,7 +52,9 @@ const Categories = () => {
           {categories.map((category) => (
             <TableRow key={category.id}>
               <TableCell>
-                <Link to={`/?category=${category.type}`}>{category.type}</Link>
+                <StyledLink to={`/?category=${category.type}`}>
+                  {category.type}
+                </StyledLink>
               </TableCell>
             </TableRow>
           ))}

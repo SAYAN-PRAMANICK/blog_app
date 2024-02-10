@@ -4,7 +4,8 @@ import { loginUser, signupUser } from "../../service/api";
 import { DataContext } from "../../context/DataProvider";
 import { useNavigate } from "react-router-dom";
 
-//Material UI components
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Styles~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 const Component = styled(Box)`
   background-color: #fefefe;
   width: 400px;
@@ -56,9 +57,11 @@ const Error = styled(Typography)({
   fontWeight: 600,
 });
 
-//Main Function component
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Main Component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 const Login = ({ setIsAuthenticated }) => {
-  //State variables
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~State variables & Hooks~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   const [toggleLogin, setToggleLogin] = useState(true);
   const [signupValues, setSignupValues] = useState({
     fullname: "",
@@ -70,18 +73,16 @@ const Login = ({ setIsAuthenticated }) => {
     password: "",
   });
   const [error, setError] = useState({ state: false, data: "" });
-
-  //Global State Variables
-  const { account, setAccount } = useContext(DataContext);
-
-  //Custom Hooks
+  const { setAccount } = useContext(DataContext);
   const navigate = useNavigate();
 
-  //LoginPage LOGO
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~LoginPage LOGO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   const imageURL =
     "https://archive.bethebusiness.com/wp-content/uploads/2019/12/Bloggraphic.jpg";
 
-  //Event handlers
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Event handlers~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   const handleSignupValues = (e) => {
     setSignupValues({ ...signupValues, [e.target.name]: e.target.value });
     setError({ state: false, data: "" });
@@ -108,7 +109,7 @@ const Login = ({ setIsAuthenticated }) => {
           "refreshToken",
           `Bearer ${res.data.refreshToken}`
         );
-        setAccount({ username: res.data.username, name: res.data.name });
+        setAccount({ name: res.data.name, username: res.data.username });
         navigate("/");
         setIsAuthenticated(true);
       })
