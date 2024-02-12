@@ -11,6 +11,7 @@ import { AddCircle as Add } from "@mui/icons-material";
 import { useSearchParams } from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
 import { uploadFile } from "../../service/api";
+import axios from "axios";
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Styles~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -73,24 +74,41 @@ const CreatePost = () => {
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Use Effect~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  useEffect(() => {
-    const getImage = async () => {
-      if (file) {
-        const data = new FormData();
-        data.append("name", file.name);
-        data.append("file", file);
+  // useEffect(() => {
+  //   const getImage = async () => {
+  //     if (file) {
+  //       const data = new FormData();
+  //       data.append("name", file.name);
+  //       data.append("file", file);
 
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~API Call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        const response = await uploadFile(data);
-        post.picture = response.data;
-      }
+  //       //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~API Call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //       const response = await uploadFile(data);
+  //       console.log(response);
 
-      post.categories = searhParams.get("category") || "All";
-      post.username = account.username;
-    };
+  //       post.picture = response.data;
+  //     }
 
-    getImage();
-  });
+  //     post.categories = searhParams.get("category") || "All";
+  //     post.username = account.username;
+  //   };
+
+  //   getImage();
+  // });
+
+  const uploadFile = () => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    axios
+      .post("http://localhost:8000/upload-endpoint", formData)
+      .then((response) => {
+        console.log("File uploaded successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error uploading file:", error);
+      });
+  };
+  uploadFile();
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Render~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
