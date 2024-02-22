@@ -4,25 +4,28 @@ import dotenv from "dotenv";
 import Connection from "./database/db.js";
 import Router from "./routes/route.js";
 import fileUpload from "express-fileupload";
-
+import bodyparser from "body-parser";
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~app cursor~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-const app = express();
+export const app = express();
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Middlewares~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 app.use(cors());
-app.use(express.json());
-app.use("/", Router);
+app.use(express.json({ limit: "50mb" }));
+// app.use(express.urlencoded({ limit: "50mb" }));
 app.use(fileUpload()); //Image uploader middlewawre
+app.use("/", Router);
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Image Upload api~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DELETED Image Upload api~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// app.post("/upload-endpoint", (req, res) => {
+//   const uploadedFile = req.files;
+//   console.log(uploadedFile);
 
-app.post("/upload-endpoint", (req, res) => {
-  const uploadedFile = req.files;
-  console.log(uploadedFile);
-  res.json({ message: "File uploaded successfully.", uploadedFile });
-});
+//   // const name = req.body.filename;
+//   // const fileContent = JSON.parse(JSON.stringify(req.files));
+//   // console.log("---------------", fileContent, "---------------");
+//   res.json({ message: "File uploaded successfully.", uploadedFile });
+// });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Private Environment variables~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

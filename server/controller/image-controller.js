@@ -1,17 +1,17 @@
-const url_backend = "http://localhost:8000";
+import Image from "../model/image.js";
 
-// export const uploadImage = (req, res) => {
-//   if (!req.file) {
-//     return res.status(404).json({ msg: "File not found!" });
-//   }
-//   console.log(req);
+export const uploadImage = async (req, res) => {
+  if (!req.body) {
+    return res.status(404).json({ msg: "Image Not Found!" });
+  }
+  const { imageId, imageName, imageData } = req.body;
+  const newImage = new Image({ imageId, imageName, imageData });
+  await newImage.save();
+  return res.status(200).json(req.body);
+};
 
-//   const imageUrl = `${url_backend}/file/${req.file.filename}`;
-//   return res.status(200).json(imageUrl);
-// };
+export const getImage = async (req, res) => {
+  const file = await Image.findOne({ imageName: req.params.filename });
 
-export const uploadImage = (req, res) => {
-  // console.log(req.files.name);
-
-  return res.send("hi from backend");
+  res.send(file);
 };

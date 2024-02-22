@@ -8,10 +8,9 @@ import {
   styled,
 } from "@mui/material";
 import { AddCircle as Add } from "@mui/icons-material";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
-import { uploadFile } from "../../service/api";
-import axios from "axios";
+import { uploadFile, uploadPost } from "../../service/api";
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Styles~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -47,7 +46,7 @@ const TextArea = styled(TextareaAutosize)({
 
 const CreatePost = () => {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~State Variables & Hooks~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+  const navigate = useNavigate();
   const [post, setPost] = useState({
     title: "",
     description: "",
@@ -64,67 +63,82 @@ const CreatePost = () => {
 
   const url = post.picture
     ? post.picture
-    : "https://source.unsplash.com/random/?nightsky";
-
+    : `https://source.unsplash.com/random/?${
+        searhParams.get("category") || ""
+      }`;
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Handler Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
+  const changeToBase64 = (e) => {
+    let img = e.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(img);
+    reader.onload = () => {
+      setFile({
+        imageId: Date.now(),
+        imageName: img.name,
+        imageData: reader.result,
+      });
+    };
+    reader.onerror = (err) => {
+      console.log("Error: ", err);
+    };
+  };
+  const handlePublish = async () => {
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Image Upload API call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (file) {
+      try {
+        uploadFile(file);
+      } catch (error) {
+        console.log("can't upload file! Try again later...");
+      }
+    }
+    post.categories = searhParams.get("category") || "All";
+    post.username = account.username;
+    post.createdDate = new Date();
+    post.picture = post.picture
+      ? post.picture
+      : `https://source.unsplash.com/random/?${post.categories}`;
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Post Upload API call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    await uploadPost(post)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status) {
+          navigate("/");
+        }
+      })
+      .catch((err) => alert(err.response.data));
+  };
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Use Effect~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  // useEffect(() => {
-  //   const getImage = async () => {
-  //     if (file) {
-  //       const data = new FormData();
-  //       data.append("name", file.name);
-  //       data.append("file", file);
-
-  //       //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~API Call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  //       const response = await uploadFile(data);
-  //       console.log(response);
-
-  //       post.picture = response.data;
-  //     }
-
-  //     post.categories = searhParams.get("category") || "All";
-  //     post.username = account.username;
-  //   };
-
-  //   getImage();
-  // });
-
-  const uploadFile = () => {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    axios
-      .post("http://localhost:8000/upload-endpoint", formData)
-      .then((response) => {
-        console.log("File uploaded successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error uploading file:", error);
-      });
-  };
-  uploadFile();
+  useEffect(() => {
+    if (file.imageData) {
+      setPost({ ...post, picture: file.imageData });
+    }
+  }, [file, post]);
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Render~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   return (
     <Container>
-      <Image src={url} alt="banner" referrerPolicy="no-referrer" />
+      <Image src={url} alt="banner" />
       <StyledFormControl>
         <label htmlFor="fileInput">
           <Add fontSize="large" color="action" />
         </label>
         <input
+          accept="image/*"
           type="file"
           id="fileInput"
           style={{ display: "none" }}
+          // onChange={(e) => {
+          //   setFile(e.target.files[0]);
+          // }}
           onChange={(e) => {
-            setFile(e.target.files[0]);
+            changeToBase64(e);
           }}
         />
         <InputTextField
@@ -132,7 +146,9 @@ const CreatePost = () => {
           onChange={(e) => handleChange(e)}
           name="title"
         />
-        <Button variant="contained">Publish</Button>
+        <Button variant="contained" onClick={() => handlePublish()}>
+          Publish
+        </Button>
       </StyledFormControl>
       <TextArea
         minRows={5}
