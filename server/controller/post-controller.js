@@ -1,6 +1,6 @@
 import Post from "../model/post.js";
 
-const uploadPost = async (req, res) => {
+export const uploadPost = async (req, res) => {
   try {
     const post = await new Post(req.body);
     post
@@ -15,4 +15,25 @@ const uploadPost = async (req, res) => {
   }
 };
 
-export default uploadPost;
+export const getAllPost = async (req, res) => {
+  const category = req.body.category;
+  try {
+    let posts =
+      !category || category == "All"
+        ? await Post.find({})
+        : await Post.find({ categories: category });
+    return res.status(200).send(posts);
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
+export const getPostById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const post = await Post.findById(id);
+    return res.status(200).send(post);
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};

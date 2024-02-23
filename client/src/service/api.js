@@ -26,3 +26,11 @@ export const uploadFile = (payload) => {
 export const uploadPost = (payload) => {
   return axios.post(`${Backend_URL}/post`, payload, getAxiosConfig());
 };
+
+export const getAllPosts = (payload) => {
+  return axios.post(`${Backend_URL}/getPosts`, payload, getAxiosConfig());
+};
+
+export const getPostById = (id) => {
+  return axios.get(`${Backend_URL}/getPostById/${id}`, getAxiosConfig());
+};
