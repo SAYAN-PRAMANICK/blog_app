@@ -7,6 +7,7 @@ import {
   getAllPost,
   getPostById,
   updatePostById,
+  deletePostById,
 } from "../controller/post-controller.js";
 import { authenticateToken } from "../controller/jwt-controller.js";
 
@@ -20,5 +21,6 @@ router.post("/post", authenticateToken, uploadPost);
 router.post("/getPosts", authenticateToken, getAllPost);
 router.get("/getPostById/:id", authenticateToken, getPostById);
 router.post("/updatePostById", authenticateToken, updatePostById);
+router.delete("/deletePostById/:id", authenticateToken, deletePostById);
 
 export default router;

@@ -16,7 +16,6 @@ export const uploadPost = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
-
 export const updatePostById = async (req, res) => {
   const [_id, updatedPost] = req.body;
   try {
@@ -31,7 +30,6 @@ export const updatePostById = async (req, res) => {
     return res.status(500).send(err.message);
   }
 };
-
 export const getAllPost = async (req, res) => {
   const category = req.body.category;
   try {
@@ -44,11 +42,19 @@ export const getAllPost = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
-
 export const getPostById = async (req, res) => {
   const id = req.params.id;
   try {
     const post = await Post.findById(id);
+    return res.status(200).send(post);
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+export const deletePostById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const post = await Post.deleteOne({ _id: id });
     return res.status(200).send(post);
   } catch (error) {
     return res.status(500).json(error.message);

@@ -1,6 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getPostById, updatePostById } from "../../service/api";
+import { getPostById, updatePostById, deletePostById } from "../../service/api";
 import {
   Box,
   Typography,
@@ -46,7 +46,6 @@ const EditHeading = styled(InputBase)({
   wordBreak: "break-word",
   width: "100%",
   height: "57px",
-  border: "none",
   border: "4px solid white",
   borderRadius: "10px",
   backgroundColor: "lightgoldenrodyellow",
@@ -88,7 +87,6 @@ const TextArea = styled(TextareaAutosize)({
   wordBreak: "break-word",
   fontFamily: "sans-serif",
   fontSize: "18px",
-  border: "none",
   border: "4px solid white",
   borderRadius: "10px",
   backgroundColor: "lightgoldenrodyellow",
@@ -98,6 +96,7 @@ const TextArea = styled(TextareaAutosize)({
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~main component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const DetailView = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [post, setPost] = useState({});
   const { account } = useContext(DataContext);
@@ -147,12 +146,26 @@ const DetailView = () => {
     setPost(updatedPost);
   };
 
+  const handleDelete = async () => {
+    await deletePostById(id)
+      .then((res) => {
+        if (res.status === 200) {
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log("Error:", err.response.data);
+      });
+  };
+
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~renderer~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   return (
     <div style={{}}>
       <Container>
         <Image src={post.picture} />
+
+        {/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Edit & Delete Buttons~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <Box style={{ float: "right" }}>
           {account.username === post.username && (
             <>
@@ -166,10 +179,12 @@ const DetailView = () => {
               ) : (
                 <EditIcon onClick={() => handleEdit()} color="primary" />
               )}
-              <DeleteIcon color="error" />
+              <DeleteIcon onClick={() => handleDelete()} color="error" />
             </>
           )}
         </Box>
+
+        {/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Title~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         {toggleEdit ? (
           <EditHeading
             placeholder="Title"
@@ -183,6 +198,7 @@ const DetailView = () => {
           <Heading>{post.title}</Heading>
         )}
 
+        {/* //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Author & Date ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <Author>
           <Typography>
             Author:{" "}
@@ -195,6 +211,7 @@ const DetailView = () => {
           </Typography>
         </Author>
 
+        {/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Description~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         {toggleEdit ? (
           <TextArea
             minRows={2}

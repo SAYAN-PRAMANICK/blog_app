@@ -38,3 +38,7 @@ export const getPostById = (id) => {
 export const updatePostById = (payload) => {
   return axios.post(`${Backend_URL}/updatePostById`, payload, getAxiosConfig());
 };
+
+export const deletePostById = (id) => {
+  return axios.delete(`${Backend_URL}/deletePostById/${id}`, getAxiosConfig());
+};
