@@ -6,6 +6,7 @@ import {
   uploadPost,
   getAllPost,
   getPostById,
+  updatePostById,
 } from "../controller/post-controller.js";
 import { authenticateToken } from "../controller/jwt-controller.js";
 
@@ -18,5 +19,6 @@ router.post("/file/:filename", getImage);
 router.post("/post", authenticateToken, uploadPost);
 router.post("/getPosts", authenticateToken, getAllPost);
 router.get("/getPostById/:id", authenticateToken, getPostById);
+router.post("/updatePostById", authenticateToken, updatePostById);
 
 export default router;

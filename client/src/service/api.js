@@ -34,3 +34,7 @@ export const getAllPosts = (payload) => {
 export const getPostById = (id) => {
   return axios.get(`${Backend_URL}/getPostById/${id}`, getAxiosConfig());
 };
+
+export const updatePostById = (payload) => {
+  return axios.post(`${Backend_URL}/updatePostById`, payload, getAxiosConfig());
+};
