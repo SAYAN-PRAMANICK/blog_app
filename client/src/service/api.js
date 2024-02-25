@@ -42,3 +42,15 @@ export const updatePostById = (payload) => {
 export const deletePostById = (id) => {
   return axios.delete(`${Backend_URL}/deletePostById/${id}`, getAxiosConfig());
 };
+
+export const uploadComment = (payload) => {
+  return axios.post(`${Backend_URL}/uploadComment`, payload, getAxiosConfig());
+};
+
+export const getAllComments = (id) => {
+  return axios.get(`${Backend_URL}/getAllComments/${id}`, getAxiosConfig());
+};
+
+export const deleteCommentById = (id) => {
+  return axios.get(`${Backend_URL}/deleteCommentById/${id}`, getAxiosConfig());
+};

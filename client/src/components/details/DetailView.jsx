@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Edit, Delete, Save } from "@mui/icons-material";
 import { DataContext } from "../../context/DataProvider";
+import Comments from "./comments/Comments";
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Styles~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const blinkAnimation = keyframes`
@@ -229,6 +230,7 @@ const DetailView = () => {
           <Description>{post.description}</Description>
         )}
       </Container>
+      <Comments post={post} />
     </div>
   );
 };

@@ -26,7 +26,7 @@ const PrivateRoute = ({ isAuthenticated, ...props }) => {
 };
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // keep it false before deployment
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <div className="App">

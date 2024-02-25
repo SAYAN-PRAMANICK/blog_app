@@ -107,7 +107,6 @@ const CreatePost = () => {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Post Upload API call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     await uploadPost(post)
       .then((res) => {
-        console.log(res.data);
         if (res.status) {
           navigate("/");
         }
@@ -137,9 +136,6 @@ const CreatePost = () => {
           type="file"
           id="fileInput"
           style={{ display: "none" }}
-          // onChange={(e) => {
-          //   setFile(e.target.files[0]);
-          // }}
           onChange={(e) => {
             changeToBase64(e);
           }}
