@@ -72,7 +72,7 @@ const CreatePost = () => {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Handler Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   const handleChange = (e) => {
-    setPost({ ...post, [e.target.name]: e.target.value });
+    setPost({ ...post, [e.target.name]: String(e.target.value) });
   };
   const changeToBase64 = (e) => {
     let img = e.target.files[0];

@@ -13,6 +13,8 @@ import DataProvider from "./context/DataProvider";
 import Header from "./components/header/Header";
 import CreatePost from "./components/create/CreatePost";
 import DetailView from "./components/details/DetailView";
+import About from "./components/about/About";
+import Contact from "./components/contact/Contact";
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   return isAuthenticated ? (
@@ -26,7 +28,7 @@ const PrivateRoute = ({ isAuthenticated, ...props }) => {
 };
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   return (
     <div className="App">
@@ -62,6 +64,22 @@ function App() {
                   element={<PrivateRoute isAuthenticated={isAuthenticated} />}
                 >
                   <Route path="/details/:id" element={<DetailView />} />
+                </Route>
+              }
+              {
+                <Route
+                  path="/about"
+                  element={<PrivateRoute isAuthenticated={isAuthenticated} />}
+                >
+                  <Route path="/about" element={<About />} />
+                </Route>
+              }
+              {
+                <Route
+                  path="/contact"
+                  element={<PrivateRoute isAuthenticated={isAuthenticated} />}
+                >
+                  <Route path="/contact" element={<Contact />} />
                 </Route>
               }
             </Routes>

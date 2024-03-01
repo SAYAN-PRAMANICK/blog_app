@@ -9,12 +9,25 @@ const Component = styled(AppBar)({
 
 const Container = styled(Toolbar)({
   justifyContent: "center",
+  fontFamily: '"Macondo", cursive',
+  fontWeight: "600",
+  fontSize: "20px",
 });
 
 const Hyperlink = styled(Link)({
-  color: "black",
-  padding: "20px",
+  color: "#2C3E50",
+  padding: "10px",
   textDecoration: "none",
+  transition: "font-size 0.2s ease-out",
+  ":hover": {
+    fontSize: "22px",
+    textShadow: "0 0 30px #1565c0",
+    color: "black",
+  },
+  ":active": {
+    color: "#1565c0",
+    textShadow: "0 0 25px #D0D3D4",
+  },
 });
 
 const Header = () => {
