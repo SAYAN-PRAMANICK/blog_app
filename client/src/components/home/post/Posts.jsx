@@ -13,10 +13,16 @@ const NoDisplay = styled(Box)({
   color: "gray",
   textShadow: "0.5px 0.5px 0.5px  #FF7F7F ",
 });
-const StyledLink = styled(Link)({
-  textDecoration: "none",
-  color: "inherit",
-});
+const MasterGrid = styled(Grid)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    justifyContent: "space-around",
+  },
+  display: "flex",
+  justifyContent: "flex-start",
+}));
+const StyledGrid = styled(Box)(({ theme }) => ({
+  margin: "5px",
+}));
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Main component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const Posts = () => {
@@ -36,21 +42,21 @@ const Posts = () => {
   }, [category]);
 
   return (
-    <>
-      {posts && posts.length > 0 ? (
-        posts.map((post, key) => {
-          return (
-            <Grid item key={key} lg={3} sm={4} xs={12}>
-              <StyledLink to={`details/${post._id}`}>
+    <Box style={{ width: "100%" }}>
+      <MasterGrid container>
+        {posts && posts.length > 0 ? (
+          posts.map((post, key) => {
+            return (
+              <StyledGrid key={key} item={+true} lg={12}>
                 <Post post={post} />
-              </StyledLink>
-            </Grid>
-          );
-        })
-      ) : (
-        <NoDisplay>no posts in {category.toLowerCase()} category!</NoDisplay>
-      )}
-    </>
+              </StyledGrid>
+            );
+          })
+        ) : (
+          <NoDisplay>no posts in {category.toLowerCase()} category!</NoDisplay>
+        )}
+      </MasterGrid>
+    </Box>
   );
 };
 

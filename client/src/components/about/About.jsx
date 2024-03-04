@@ -31,9 +31,12 @@ const About = () => {
     fontFamily: "Rubik Glitch Pop",
   }));
 
-  const StyledBox = styled(Box)({
-    margin: "0 10px 0 10px",
-  });
+  const StyledBox = styled(Box)(({ theme }) => ({
+    margin: "0 250px 0 250px",
+    [theme.breakpoints.down("md")]: {
+      margin: "0 10px 0 10px",
+    },
+  }));
 
   const SubHeading = styled(Typography)(({ theme }) => ({
     fontSize: "22px",

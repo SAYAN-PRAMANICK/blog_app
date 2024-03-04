@@ -9,10 +9,10 @@ const Home = () => {
     <>
       <Banner />
       <Grid container>
-        <Grid item lg={2} sm={2} xs={12}>
+        <Grid item lg={1.2} sm={12} xs={12}>
           <Categories />
         </Grid>
-        <Grid container item lg={10} sm={10} xs={12}>
+        <Grid container item lg={10.8} sm={12} xs={12}>
           <Posts />
         </Grid>
       </Grid>
