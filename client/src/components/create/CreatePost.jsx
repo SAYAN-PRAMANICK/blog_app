@@ -11,16 +11,34 @@ import { AddCircle as Add } from "@mui/icons-material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
 import { uploadFile, uploadPost } from "../../service/api";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Styles~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+const StyledDisplay = styled(Box)({
+  marginTop: "5.5%",
+  position: "relative",
+});
+const labelStyle = {
+  cursor: "pointer",
+  backgroundColor: "white",
+  border: "#154360 2px solid",
+  borderRadius: "5px",
+  position: "absolute",
+  bottom: 4,
+  left: 0,
+  paddingTop: "3px",
+  color: "#154360",
+};
 const Image = styled("img")({
   width: "100%",
   height: "50vh",
   objectFit: "cover",
+  border: "#154360 2px solid",
+  borderRadius: "5px",
 });
 const Container = styled(Box)(({ theme }) => ({
-  margin: "50px 100px",
+  margin: "50px 80px",
   [theme.breakpoints.down("md")]: {
     margin: 0,
   },
@@ -31,19 +49,31 @@ const StyledFormControl = styled(FormControl)({
   flexDirection: "row",
 });
 const InputTextField = styled(InputBase)({
-  flex: "1",
-  margin: "0 30px ",
-  fontSize: "25px",
-});
-const TextArea = styled(TextareaAutosize)({
   width: "100%",
-  marginTop: "50px",
+  fontSize: "25px",
+  border: "#154360 2px solid",
+  marginRight: "25px",
+  borderRadius: "5px",
+  paddingLeft: "10px",
+  backgroundColor: "#D7BDE2",
+  fontFamily: "monospace",
+});
+const TextArea = styled(TextareaAutosize)(({ theme }) => ({
+  marginTop: "30px",
   fontSize: "18px",
-  border: "none",
   "&:focus-visible": {
     outline: "none",
   },
-});
+  border: "#154360 2px solid",
+  borderRadius: "5px",
+  backgroundColor: "#D5F5E3",
+  padding: "1%",
+  width: "98%",
+  [theme.breakpoints.down("md")]: {
+    padding: "1%",
+    width: "97%",
+  },
+}));
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Main Component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -126,27 +156,33 @@ const CreatePost = () => {
 
   return (
     <Container>
-      <Image src={url} alt="banner" />
-      <StyledFormControl>
-        <label htmlFor="fileInput">
-          <Add fontSize="large" color="action" />
+      <StyledDisplay>
+        <Image src={url} alt="banner" />
+        <label htmlFor="fileInput" style={labelStyle}>
+          <Add fontSize="medium" color="#154360" />
         </label>
-        <input
-          accept="image/*"
-          type="file"
-          id="fileInput"
-          style={{ display: "none" }}
-          onChange={(e) => {
-            changeToBase64(e);
-          }}
-        />
+      </StyledDisplay>
+      <input
+        accept="image/*"
+        type="file"
+        id="fileInput"
+        style={{ display: "none" }}
+        onChange={(e) => {
+          changeToBase64(e);
+        }}
+      />
+      <StyledFormControl>
         <InputTextField
           placeholder="Title"
           onChange={(e) => handleChange(e)}
           name="title"
         />
-        <Button variant="contained" onClick={() => handlePublish()}>
-          Publish
+        <Button
+          variant="contained"
+          endIcon={<KeyboardArrowRightIcon />}
+          onClick={() => handlePublish()}
+        >
+          Post
         </Button>
       </StyledFormControl>
       <TextArea

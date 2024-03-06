@@ -26,12 +26,13 @@ const blinkAnimation = keyframes`
   }
 `;
 const Container = styled(Box)(({ theme }) => ({
-  margin: "50px 100px",
+  margin: "50px 80px",
   [theme.breakpoints.down("md")]: {
     margin: 0,
   },
 }));
 const Image = styled("img")({
+  marginTop: "1%",
   objectFit: "cover",
   width: "100%",
   height: "50vh",
