@@ -18,6 +18,7 @@ const StyledButton = styled(Button)({
 });
 const StyledLink = styled(Link)({
   textDecoration: "none",
+  color: "black",
   width: "100%",
 });
 const Container = styled(Box)(({ theme }) => ({

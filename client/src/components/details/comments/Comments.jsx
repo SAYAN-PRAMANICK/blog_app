@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  InputBase,
   TextareaAutosize,
   Typography,
   styled,
@@ -13,6 +14,7 @@ import { uploadComment } from "../../../service/api";
 import { DataContext } from "../../../context/DataProvider";
 import { useParams } from "react-router-dom";
 import CommentList from "./CommentList";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Styles~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const MasterContainer = styled(Box)(({ theme }) => ({
@@ -46,6 +48,7 @@ const Container2 = styled(Box)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  position: "relative",
 });
 const PersonIcon = styled(RecordVoiceOverIcon)({
   fontSize: "55px",
@@ -56,24 +59,50 @@ const TextArea = styled(TextareaAutosize)({
   boxShadow: "3px 3px 3px  gray",
   width: "80%",
   margin: "0px 10px 0px 20px",
+  padding: "2px",
 });
-const StyledButton = styled(Button)({
-  borderRadius: "50%",
-  border: "none",
-  transition: "background-color 0.5s ease , box-shadow 0.5s ease",
-  ":hover": {
-    border: "none",
-    borderRadius: "50%",
-    backgroundColor: "#F2F3F4",
-    boxShadow: "0 0 3px #797D7F",
-    width: "fit-content",
-  },
-});
-const Send = styled(SendIcon)({
-  color: "#F39C12",
-  fontSize: "40px",
-  marginLeft: "20%",
-});
+
+const Post = styled(Button)`
+  position: absolute;
+  right: 0;
+  height: 50px;
+  font-weight: 600;
+  border-radius: 10px;
+
+  --b: 0.1em; /* the thickness of the line */
+  --c: black; /* the color */
+  border: #f1c40f 2px solid;
+  color: #0000;
+  padding-block: var(--b);
+  background: linear-gradient(var(--c) 50%, #000 0) 0%
+      calc(100% - var(--_p, 0%)) / 100% 200%,
+    linear-gradient(var(--c) 0 0) 0% var(--_p, 0%) / var(--_p, 0%) var(--b)
+      no-repeat;
+  -webkit-background-clip: text, padding-box;
+  background-clip: text, padding-box;
+  transition: 0.3s var(--_s, 0s) linear,
+    background-size 0.3s calc(0.3s - var(--_s, 0s));
+  background-color: #ffbf00;
+  color: white;
+  box-shadow: 3px 3px 3px gray;
+
+  :hover {
+    color: black;
+    border: none;
+    border: black 2px solid;
+    box-shadow: 3px 3px 3px gray;
+    --_p: 100%;
+    --_s: 0.3s;
+  }
+
+  :active {
+    border: none;
+    border: red 2px solid;
+    box-shadow: 3px 3px 3px red;
+    transition: 0s;
+    color: red;
+  }
+`;
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Main Component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const Comments = ({ post }) => {
@@ -108,7 +137,9 @@ const Comments = ({ post }) => {
       <MasterContainer>
         <Container1>
           <Comment />
-          <CommentText>{count} Comments</CommentText>
+          <CommentText>
+            {count} {count == 1 ? "Comment" : "Comments"}
+          </CommentText>
         </Container1>
         <Container2>
           <PersonIcon />
@@ -121,9 +152,13 @@ const Comments = ({ post }) => {
               setComment({ ...comment, comment: e.target.value })
             }
           />
-          <StyledButton variant="outlined" onClick={() => handleSend()}>
-            <Send />
-          </StyledButton>
+
+          <Post
+            onClick={() => handleSend()}
+            endIcon={<KeyboardArrowRightIcon />}
+          >
+            Post
+          </Post>
         </Container2>
         <CommentList comment={comment} setCount={setCount} />
       </MasterContainer>

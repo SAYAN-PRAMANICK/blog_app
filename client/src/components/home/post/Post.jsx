@@ -55,6 +55,8 @@ const Details = styled(Typography)({
   wordBreak: "break-word",
   padding: "0 4px",
   minHeight: "96px",
+  textAlign: "justify",
+  textJustify: "inter-word",
 });
 const StyledLink = styled(Link)({
   textDecoration: "none",
@@ -136,8 +138,6 @@ const Post = ({ post }) => {
     Fashion: "#DC7633",
   };
 
-  let count = Math.floor(Math.random() * 10);
-
   return (
     <StyledLink to={`details/${post._id}`}>
       <Container>
@@ -145,8 +145,8 @@ const Post = ({ post }) => {
         <Category textcolor={colorCodes[post.categories]}>
           {post.categories}
         </Category>
-        <Heading>{addElipsis(post.title, 20)}</Heading>
-        <Details>{addElipsis(post.description, 100)}</Details>
+        <Heading>{addElipsis(post.title, 26)}</Heading>
+        <Details>{addElipsis(post.description, 110)}</Details>
         <Footer>
           <Grid container>
             <GridUser item>

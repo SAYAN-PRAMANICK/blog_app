@@ -96,9 +96,7 @@ const CreatePost = () => {
 
   const url = post.picture
     ? post.picture
-    : `https://source.unsplash.com/random/?${
-        searhParams.get("category") || ""
-      }`;
+    : `https://source.unsplash.com/random`;
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Handler Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   const handleChange = (e) => {
@@ -133,7 +131,7 @@ const CreatePost = () => {
     post.createdDate = new Date();
     post.picture = post.picture
       ? post.picture
-      : `https://source.unsplash.com/random/?${post.categories}`;
+      : `https://source.unsplash.com/random`;
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Post Upload API call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     await uploadPost(post)
       .then((res) => {

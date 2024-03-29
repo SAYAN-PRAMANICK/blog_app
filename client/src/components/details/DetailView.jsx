@@ -16,13 +16,13 @@ import Comments from "./comments/Comments";
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Styles~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const blinkAnimation = keyframes`
   0% {
-    border-color: #F1C40F;
+    border-color: #154360;
   }
   50% {
     border-color: transparent;
   }
   100% {
-    border-color: #F1C40F;
+    border-color: #154360;
   }
 `;
 const Container = styled(Box)(({ theme }) => ({
@@ -36,69 +36,141 @@ const Image = styled("img")({
   objectFit: "cover",
   width: "100%",
   height: "50vh",
+  border: "#154360 2px solid",
+  borderRadius: "5px",
 });
-const Heading = styled(Typography)({
+const Heading = styled(Typography)(({ theme }) => ({
   fontSize: "38px",
   fontWeight: "600",
-  margin: "50px 0 10px 0",
+  margin: "30px 0 10px 0",
   wordBreak: "break-word",
   borderRadius: "10px",
-  paddingLeft: "5px",
-});
-const EditHeading = styled(InputBase)({
-  fontSize: "38px",
-  fontWeight: "600",
-  wordBreak: "break-word",
-  width: "100%",
-  height: "57px",
-  border: "4px solid white",
-  borderRadius: "10px",
-  backgroundColor: "lightgoldenrodyellow",
-  paddingLeft: "5px",
-  color: "#566573",
-  animation: `${blinkAnimation} 0.3s ease-out `,
-});
-const EditIcon = styled(Edit)({
-  margin: "5px",
-  padding: "5px",
-  border: "1px solid #878787",
-  borderRadius: "10px",
-});
-const SaveIcon = styled(Save)({
-  margin: "5px",
-  padding: "5px",
-  border: "1px solid #878787",
-  borderRadius: "10px",
-});
-const DeleteIcon = styled(Delete)({
-  margin: "5px",
-  padding: "5px",
-  border: "1px solid #878787",
-  borderRadius: "10px",
-});
+  textDecoration: "underline",
+  [theme.breakpoints.up("md")]: {
+    textAlign: "justify",
+    textJustify: "inter-word",
+  },
+}));
 const Author = styled(Box)({
-  color: "#878787",
-  margin: "20px",
+  margin: "20px 0",
   display: "flex",
+  "& > p": {
+    color: "white",
+    backgroundColor: "#34495E",
+    fontFamily: "monospace",
+    borderRadius: "5px",
+    padding: "0 3px",
+    border: "#154360 2px solid",
+  },
 });
 const Description = styled(Typography)({
   width: "100%",
   wordBreak: "break-word",
   fontFamily: "sans-serif",
   fontSize: "18px",
+  textAlign: "justify",
+  textJustify: "inter-word",
+});
+const SaveIcon = styled(Save)`
+  --g: 2px; /* the gap */
+  --b: 2px; /* border thickness*/
+  --c: #154360; /* the color */
+
+  padding: calc(var(--g) + var(--b));
+  --_c: #0000 0 25%, var(--c) 0 50%;
+  --_g1: repeating-linear-gradient(90deg, var(--_c)) repeat-x;
+  --_g2: repeating-linear-gradient(180deg, var(--_c)) repeat-y;
+  background: var(--_g1) var(--_p, 25%) 0, var(--_g2) 0 var(--_p, 125%),
+    var(--_g1) var(--_p, 125%) 100%, var(--_g2) 100% var(--_p, 25%);
+  background-size: 200% var(--b), var(--b) 200%;
+  cursor: pointer;
+  filter: grayscale(0%);
+  transition: 0.3s;
+  :hover {
+    --_p: 75%;
+  }
+  :active {
+    color: black;
+    transition: 0s;
+    --c: red;
+  }
+`;
+const DeleteIcon = styled(Delete)`
+  margin: 0 0 0 10px;
+  --g: 2px; /* the gap */
+  --b: 2px; /* border thickness*/
+  --c: #154360; /* the color */
+
+  padding: calc(var(--g) + var(--b));
+  --_c: #0000 0 25%, var(--c) 0 50%;
+  --_g1: repeating-linear-gradient(90deg, var(--_c)) repeat-x;
+  --_g2: repeating-linear-gradient(180deg, var(--_c)) repeat-y;
+  background: var(--_g1) var(--_p, 25%) 0, var(--_g2) 0 var(--_p, 125%),
+    var(--_g1) var(--_p, 125%) 100%, var(--_g2) 100% var(--_p, 25%);
+  background-size: 200% var(--b), var(--b) 200%;
+  cursor: pointer;
+  filter: grayscale(0%);
+  transition: 0.3s;
+  :hover {
+    --_p: 75%;
+  }
+  :active {
+    color: black;
+    transition: 0s;
+    --c: red;
+  }
+`;
+const EditIcon = styled(Edit)`
+  --g: 2px; /* the gap */
+  --b: 2px; /* border thickness*/
+  --c: #154360; /* the color */
+
+  padding: calc(var(--g) + var(--b));
+  --_c: #0000 0 25%, var(--c) 0 50%;
+  --_g1: repeating-linear-gradient(90deg, var(--_c)) repeat-x;
+  --_g2: repeating-linear-gradient(180deg, var(--_c)) repeat-y;
+  background: var(--_g1) var(--_p, 25%) 0, var(--_g2) 0 var(--_p, 125%),
+    var(--_g1) var(--_p, 125%) 100%, var(--_g2) 100% var(--_p, 25%);
+  background-size: 200% var(--b), var(--b) 200%;
+  cursor: pointer;
+  filter: grayscale(0%);
+  transition: 0.3s;
+  :hover {
+    --_p: 75%;
+  }
+  :active {
+    color: black;
+    transition: 0s;
+    --c: red;
+  }
+`;
+
+const EditHeading = styled(InputBase)({
+  fontSize: "38px",
+  fontWeight: "600",
+  wordBreak: "break-word",
+  width: "100%",
+  height: "57px",
+  border: "3px solid #154360",
+  borderRadius: "10px",
+  backgroundColor: "#d7bde2",
+  paddingLeft: "5px",
+  color: "#566573",
+  animation: `${blinkAnimation} 0.3s ease-out `,
 });
 const TextArea = styled(TextareaAutosize)({
   width: "99.2%",
   wordBreak: "break-word",
   fontFamily: "sans-serif",
   fontSize: "18px",
-  border: "4px solid white",
+  border: "3px solid #154360",
   borderRadius: "10px",
-  backgroundColor: "lightgoldenrodyellow",
+  backgroundColor: "#d5f5e3",
   animation: `${blinkAnimation} 0.3s ease-out `,
   color: "#566573",
+  textAlign: "justify",
+  textJustify: "inter-word",
 });
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~main component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const DetailView = () => {
   const navigate = useNavigate();
@@ -206,7 +278,7 @@ const DetailView = () => {
         {/* //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Author & Date ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <Author>
           <Typography>
-            Author:{" "}
+            <b> Author:</b>{" "}
             <Box component="span" style={{ fontWeight: 600 }}>
               {post.username}
             </Box>
